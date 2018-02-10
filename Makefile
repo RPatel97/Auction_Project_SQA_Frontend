@@ -1,5 +1,5 @@
 all:
-	g++ OnlineAuctionSystem.cpp -o Auction
+	g++ OnlineAuctionSystem.cpp OnlineAuctionSystem.h -o Auction
 
 clean:
 	rm -f Auction

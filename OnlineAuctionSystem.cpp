@@ -2,122 +2,143 @@
 #include <iostream>
 #include <limits>
 #include <string>
+#include <list>
+#include <iterator>
 
-template <typename T>
-T get_input(const std::string &strQuery);
+#include "OnlineAuctionSystem.h"
 
-void login();
-void login_menu();
-void main_menu();
-void logout();
-
-//TODO
-void create_user();
-void delete_user();
-void add_credit();
-void refund_credit();
-void advertise();
-void bid();
+/*
+ *Generated welcome msg, prompts user to enter command, 
+ *reads into command and redirects to appropriate function. 
+ *Only login has been coded.
+ *Must login to access main menu. Login as admin01.
+ *In order to login, type "login" as first command then press enter, when prompted to, enter username as "admin01".
+ */
 
 int main()
 {
-    login_menu();
-}
+    std::string user_input;
+    std::list<std::string> user_inputs;
+    std::cout<< "Welcome to the Online Auction System! Please login to Proceed" << "\n";
+    std::cin >> user_input;
 
-// Continious input for user is in the system
-template <typename T>
-T get_input(const std::string &strQuery)
-{
-    std::cout << strQuery << "\n> ";
-    T out = T();
+    //implemented list for tokenization of commands and parameters, for later functionality.
+    user_inputs.push_back(user_input);
+    std::list<std::string>::iterator command_iter;
+    std::string delimiter = " ";
+    std::string command = user_input.substr(0, user_input.find(delimiter));
+    
+    //Code to tokenize commands: commented out for now
+    //std::string username = user_input.substr(user_input.find(delimiter + delimiter.size());
+    //std::cout << command << username << "\n";
 
-    while (!(std::cin >> out)) {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits <std::streamsize>::max(), '\n');
-        std::cout << "Error!" "\n";
-        std::cout << strQuery << "\n> ";
+    if (command == "login")
+    {
+        login();
+    }
+    else{
+        std::cout<<"Not a valid command" << "\n";
     }
 
-    return out;
 }
+
+/*
+ *Once login command has been deteced, main redirects here, 
+ *reads into user input for username, saves to variable. 
+ *compares variable to .txt file for username in database.
+ *If found, login success, otherwise session is terminated.
+ *Currently, must login as admin01 or user01.
+ */
 
 void login()
 {
+    //initializing variables
+    bool found = false;
+    int i = 0;
+    std::list<std::string> txt;
+    std::string saveduser;    
+    
+    //take in username
     std::string username;
     std::cout << "Please enter your username: " << "\n";
     std::cin >> username;
 
+    //open database
     std::ifstream userLoginFile;
-    std::string regd_username;
-
-    userLoginFile.open("currentUsers.txt");
-    if(!userLoginFile){
-        std::cout << "User info file not found.";
-    }
-    else{
-        while(!userLoginFile.eof()){
-            userLoginFile >> regd_username;
-            if(username == regd_username){
-                std::cout << "\nYou have been logged in! Welcome "
-                << username << "!" << "\n";
-                main_menu();
-            }
-            else if(regd_username != username){
-                std::cout << "Username does not exist within database" << "\n";
-                break;
-            }
-            
-        
+    userLoginFile.open("CurrentUsers.txt");
+    
+    //read into database
+    while (!userLoginFile.eof())
+    {
+        if(userLoginFile.is_open())
+        {
+            getline(userLoginFile, saveduser);
+            txt.push_back(saveduser);
+            i++;
         }
+    }
+    userLoginFile.close();
+
+    //iterate through database with comparison of username, if true is returned, login success
+    std::list<std::string>::iterator iter;
+    std::string findString = username;
+
+    for(std::list<std::string>::iterator iter = txt.begin(); iter != txt.end(); iter++)
+    {
+        if (username == *iter)
+        {
+            found = true;
+            main_menu();
+        }
+        
+    }
+    if (found == false)
+    {
+        std::cout << "Username not found in database" << "\n";
     }
     
 }
 
-// Displays Options to users
-void login_menu()
-{
-    int choice1 = get_input <int>(
-        "Welcome to the Online Auction System! Please login to continue" "\n"
-        "[1] Login" "\n"
-        "[2] Exit");
+/*
+ *If login successful, redirect to main_menu. 
+ *This function has access to all commands except login. 
+ *TODO all commands, any command currently input terminates session.
+ */
 
-    switch (choice1)
-    {
-    case 1:
-        login();
-        break;
-    case 2:
-        break;
-    }
-}
-
-// Display all available user options to the user
 void main_menu()
 {
-    int choice2 = get_input<int>(
-        "\nPlease choose from the following options to proceed" "\n"
-        "[1] Advertise new item" "\n"
-        "[2] Bid on new items" "\n"
-        "[3] Add Credit to your account" "\n"
-        "[4] Request Refund" "\n"
-        "[5] Delete User" "\n"
-        "[6] Create User" "\n"
-        "[7] Logout" "\n"
-    );
 
-    switch (choice2)
+    std::cout<<"Welcome to the main menu. Please enter a command to continue: "
+            << "\n";
+
+    typedef enum{
+        advertise,
+        bid,
+        addcredit,
+        refund,
+        userdelete,
+        create,
+        logout
+    }userCommand;
+
+    int userCommand1;
+    std::cin >> userCommand1;
+    /*std::string userCommand;
+    std::cin >> userCommand;*/
+
+    switch (userCommand1)
     {
         case 1:
-            advertise();
+            advertise1();
             break;
         case 2:
-            bid();
+            bid1();
             break;
         case 3:
-            add_credit();
+            addCredit();
             break;
         case 4:
-            refund_credit();
+            refundCredit();
             break;
         case 5:
             delete_user();
@@ -126,42 +147,38 @@ void main_menu()
             create_user();
             break;
         case 7:
-            logout();
+            logout1();
             break;
     }
 }
-
-void logout()
+/*
+ *Below are all the functions that need to be implemented. 
+ */
+void logout1()
 {
-    login_menu();
+    //TODO
 }
 void create_user()
 {
     //TODO
-    login_menu();
 }
 void delete_user()
 {
     //TODO
-    login_menu();
 }
-void add_credit()
+void addCredit()
 {
     //TODO
-    login_menu();
 }
-void refund_credit()
+void refundCredit()
 {
     //TODO
-    login_menu();
 }
-void advertise()
+void advertise1()
 {
     //TODO
-    login_menu();
 }
-void bid()
+void bid1()
 {
     //TODO
-    login_menu();
 }
