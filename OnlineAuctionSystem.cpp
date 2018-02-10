@@ -5,7 +5,7 @@
 #include <list>
 #include <iterator>
 
-#include "OnlineAuctionSystem.h"
+#include "OnlineAuctionSystem.hpp"
 
 /*
  *Generated welcome msg, prompts user to enter command, 
