@@ -1,0 +1,19 @@
+To run the program:
+
+type in "make" in directory.
+type ./Auction.
+enter command "login" to get started.
+enter any username in currentusers.txt.
+
+main menu commands:
+
+	advertise
+	logout
+	createuser
+	deleteuser
+	bid (//TODO BACKEND)
+	addcredits (//TODO BACKEND)
+	subtractcredits (//TODO BACKEND)
+
+every iteration of commands takes you back to main menu, expect for logout.
+
