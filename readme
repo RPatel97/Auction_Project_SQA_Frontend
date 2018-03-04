@@ -20,6 +20,10 @@ every iteration of commands takes you back to main menu, expect for logout.
 to run the TEST scripts type  ./script.sh
 if this does not work type "chmod +x script.sh" to the cmd line
 
+If possible run each test seperately as they all use the same dailyTransaction file
+When run seperately each test is succesful, this is how we got all successes for 
+our failure logs.
+
 **Some back end functionality has been implemented in addCredits and
  refundCredits but not in bid to help with phase 4.
  
