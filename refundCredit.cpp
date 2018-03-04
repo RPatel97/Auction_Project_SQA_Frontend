@@ -6,24 +6,31 @@
 #include "refundCredit.hpp"
 #include "mainMenu.hpp"
 
+std::string refundCredit::refund_username;
+std::string refundCredit::seller_username;
+int refundCredit::changed_credit;
+bool refundCredit::refund_success;
+
 void refundCredit::refund_credit(){
-    std::string line, username;
+    std::string line;
     mainMenu menu;
+    User sell_user;
+    User refund_user;
     User admin_user;
-    User user;
-    int changed_credit, user_credits, admin_credits, new_user_credits, new_admin_credits;
+    int buyer_credits, seller_credits;
 
     for (User a : Users::GetUsers()){
         if (Login::username == a.username){
             admin_user = a;
         }
     }
-    
-    //std::cin >> admin_user.credits;
-    
+        
     if (admin_user.roles == "AD"){
-        std::cout << "Please enter a username" << "\n";
-        std::cin >> username;
+        std::cout << "Please enter username to send refund to: ";
+        std::cin >> refund_username;
+
+        std::cout << "Please enter seller username: ";
+        std::cin >> seller_username;
 
         std::ifstream users;
         users.open("currentaccounts.txt");
@@ -31,33 +38,44 @@ void refundCredit::refund_credit(){
         std::ofstream temp;
         temp.open("temp.txt");
 
-        for (User u : Users::GetUsers()){
-            if (username == u.username)
+        for (User r : Users::GetUsers()){
+            if (refund_username == r.username)
             {
-                user = u;
+                refund_user = r;
             }
         }
 
-        //supposed to look for everything not user
-        while (getline(users, line))
-        {
-            if (line.substr(0, username.size()) != user.username || line.substr(0, username.size()) != admin_user.username)
+        for (User s : Users::GetUsers()){
+            if (seller_username == s.username)
             {
-                temp << line << "\n";
+                sell_user = s;
             }
         }
-     
+
+        //supposed to look for everything other than user and admin
+        while (getline(users, line))
+        {
+            if (line.substr(0, refund_username.size()) == refund_user.username || line.substr(0, seller_username.size()) == sell_user.username)
+            {
+                continue;
+            }
+            
+            temp << line << "\n";
+        }
+        
+        users.close();
+        temp.close();
 
         std::cout << "Please enter how much credit you would like to refund" << "\n";
         std::cin >> changed_credit;
         
        
-        new_user_credits = user.credits += changed_credit;
+        buyer_credits = refund_user.credits += changed_credit;
         
-        new_admin_credits = admin_user.credits -= changed_credit;
+        seller_credits = sell_user.credits -= changed_credit;
 
-        user.credits = new_user_credits;
-        admin_user.credits = new_admin_credits;
+        refund_user.credits = buyer_credits;
+        sell_user.credits = seller_credits;
 
         
         std::ofstream update_users;
@@ -66,16 +84,17 @@ void refundCredit::refund_credit(){
         
 
         std::cout << "Adding credits..." << "\n";
-        update_users << user.username << " " << user.roles << " " << user.credits << "\n"; 
+        update_users << refund_user.username << " " << refund_user.roles << " " << refund_user.credits << "\n"; 
         std::cout << "Subtracting credits..." << "\n";
-        update_users << admin_user.username << " " << admin_user.roles << " " << admin_user.credits << "\n";
+        update_users << sell_user.username << " " << sell_user.roles << " " << sell_user.credits << "\n";
         
-        std::cout << "New credits for Admin are: " << admin_user.credits << " and new credits for user are: " << user.credits << "\n";
+        std::cout << "New credits for Seller are: " << sell_user.credits << " and new credits for user are: " << refund_user.credits << "\n";
 
         update_users.close();
         remove("currentaccounts.txt");
         rename("temp.txt", "currentaccounts.txt");
 
+        refund_success = true;
         menu.main_menu();
     }
     else

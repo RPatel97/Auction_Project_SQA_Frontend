@@ -1,3 +1,4 @@
-10 user01         FS 000000.00
-02 user02         FS 000000.00
-00 user01         FS 000000.00
+10 admin01 AD 99999
+01 bob FS 0
+02 bob FS 0
+00 admin01 AD 99999

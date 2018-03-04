@@ -6,14 +6,24 @@ enter command "login" to get started.
 enter any username in currentusers.txt.
 
 main menu commands:
-
+	
 	advertise
 	logout
 	createuser
 	deleteuser
-	bid (//TODO BACKEND)
-	addcredits (//TODO BACKEND)
-	subtractcredits (//TODO BACKEND)
+	bid
+	addcredits
+	refundcredits
 
 every iteration of commands takes you back to main menu, expect for logout.
+
+to run the TEST scripts type  ./script.sh
+if this does not work type "chmod +x script.sh" to the cmd line
+
+**Some back end functionality has been implemented in addCredits and
+ refundCredits but not in bid to help with phase 4.
+ 
+ The extra spaces are not accounted for the .dtf, but the code does have bounds
+ to account for character count**
+
 

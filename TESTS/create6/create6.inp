@@ -1,6 +1,9 @@
 login
-user01
-delete
-user02
+admin01
+createuser
+bob
+FS
+deleteuser
+bob
 logout
 

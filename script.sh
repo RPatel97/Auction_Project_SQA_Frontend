@@ -16,6 +16,7 @@ for f in ./TESTS/**/*.inp; do
     diff $_PATH/$_NAME.etf ./dailyTransactionFile.atf
     if [ ! $? -eq 0 ]; then
         echo Test $_NAME fail
+	printf "\n"
     else
         echo Test $_NAME success
         printf "\n"

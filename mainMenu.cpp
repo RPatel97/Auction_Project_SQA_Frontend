@@ -12,6 +12,7 @@
 #include "createUser.hpp"
 #include "addCredit.hpp"
 #include "refundCredit.hpp"
+#include "bidItem.hpp"
 
 
 /*
@@ -25,7 +26,7 @@
 void mainMenu::main_menu()
 {
     advertiseItem a;
-    //bidItem b;
+    bidItem b;
     deleteUser d;
     Logout l;
     createUser c;
@@ -33,8 +34,7 @@ void mainMenu::main_menu()
     refundCredit rc;
 
     std::string userCommand;
-    std::cout<<"Welcome to the main menu. Please enter a command to continue: "
-            << "\n";
+    std::cout << "Welcome to the main menu. Please enter a command to continue: " << "\n";
     std::cin >> userCommand;
 
     if (userCommand == "advertise")
@@ -43,7 +43,7 @@ void mainMenu::main_menu()
     }
     else if (userCommand == "bid")
     {
-        
+        b.bid_item();
     }
     else if (userCommand == "addcredit")
     {
@@ -69,31 +69,4 @@ void mainMenu::main_menu()
     {
         std::cout << "Command not Recognized" << "\n";
     }
-    /*std::string userCommand;
-    std::cin >> userCommand;*/
-
-    /*switch (userCommand1)
-    {
-        case 1:
-            advertise1();
-            break;
-        case 2:
-            bid1();
-            break;
-        case 3:
-            addCredit();
-            break;
-        case 4:
-            refundCredit();
-            break;
-        case 5:
-            delete_user();
-            break;
-        case 6:
-            create_user();
-            break;
-        case 7:
-            logout1();
-            break;
-    }*/
 }

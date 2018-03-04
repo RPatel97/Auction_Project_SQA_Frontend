@@ -7,6 +7,9 @@
 class addCredit {
     public:
         void add_credit();
+        static bool credit_success;
+        static std::string username;
+        static int changed_credit;
 };
 
 #endif
