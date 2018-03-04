@@ -1,7 +1,10 @@
+This program only runs on linux
+
 To run the program:
 
-type in "make" in directory.
-type ./Auction.
+navigate to the directory in cmd line
+type in "make" in cmd line.
+after make compiles type ./Auction
 enter command "login" to get started.
 enter any username in currentusers.txt.
 
